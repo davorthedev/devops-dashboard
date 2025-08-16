@@ -1,0 +1,11 @@
+/backend/var/
+/backend/vendor/
+/backend/.env.local
+/backend/.env.local.php
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
+/scripts/sys_stats
+/vendor/
+*.log
+.idea/

@@ -1,0 +1,41 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    metrics_script_path: '%kernel.project_dir%/../scripts/sys_stats'
+    logs_script_path: '%kernel.project_dir%/../scripts/log_analyzer.py'
+    services_script_path: '%kernel.project_dir%/../scripts/service_manager.rb'
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    App\Service\MetricsService:
+        arguments:
+            $scriptPath: '%metrics_script_path%'
+
+    App\Service\LogsService:
+        arguments:
+            $pythonScriptPath: '%logs_script_path%'
+
+    App\Service\ServicesService:
+        arguments:
+            $rubyScriptPath: '%services_script_path%'
+
+    App\Command\StoreMetricsCommand:
+        arguments:
+            $scriptPath: '%metrics_script_path%'

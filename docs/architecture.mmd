@@ -1,0 +1,14 @@
+flowchart LR
+  subgraph Host OS (Ubuntu/WSL2)
+    C[sys_stats (C binary)] -->|JSON| PHP[Symfony API]
+    PY[log_analyzer.py] -->|JSON| PHP
+    RB[service_manager.rb] -->|stdout| PHP
+    PHP -->|HTTP JSON| FE[React App]
+    PHP <-->|SQL (Doctrine)| DB[(PostgreSQL/MySQL)]
+    CRON[[cron: app:store-metrics]] --> PHP
+  end
+
+  FE -->|/api/metrics| PHP
+  FE -->|/api/metrics/history| PHP
+  FE -->|/api/logs| PHP
+  FE -->|/api/services/*| PHP
