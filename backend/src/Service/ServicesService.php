@@ -13,13 +13,12 @@ class ServicesService
         if ('' === $rubyScriptPath) {
             throw new \InvalidArgumentException('Ruby script path cannot be empty.');
         }
+        if (!is_file($rubyScriptPath) || !is_readable($rubyScriptPath)) {
+            throw new \InvalidArgumentException(sprintf('Script not found or not readable: %s', $rubyScriptPath));
+        }
         $this->rubyScriptPath = $rubyScriptPath;
     }
 
-    /**
-     * @param string $action TODO dodati enumerator?
-     * @param string $serviceName TODO dodati enumerator?
-     */
     public function manageService(string $action, string $serviceName): string
     {
         $process = new Process(['ruby', $this->rubyScriptPath, $action, $serviceName]);

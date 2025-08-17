@@ -13,6 +13,9 @@ class LogsService
         if ('' === $pythonScriptPath) {
             throw new \InvalidArgumentException('Python script path can not be empty.');
         }
+        if (!is_file($pythonScriptPath) || !is_readable($pythonScriptPath)) {
+            throw new \InvalidArgumentException(sprintf('Script not found or not readable: %s', $pythonScriptPath));
+        }
         $this->pythonScriptPath = $pythonScriptPath;
     }
 

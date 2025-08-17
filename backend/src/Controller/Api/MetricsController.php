@@ -11,12 +11,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/metrics')]
 class MetricsController extends AbstractController
 {
-    // TODO proveriti bezbednost, svako ima pristup?
-
     #[Route('', methods: ['GET'])]
     public function index(MetricsService $metricsService): JsonResponse
     {
-        return $this->json($metricsService->getMetrics());
+        try {
+            return $this->json($metricsService->getMetrics(), JsonResponse::HTTP_OK, ['Cache-Control' => 'no-store']);
+        } catch (\Throwable $e) {
+            return $this->json(
+                ['error' => 'Failed to collect metrics'],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**

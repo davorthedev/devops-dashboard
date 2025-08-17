@@ -1,0 +1,9 @@
+{
+    "require": {
+        "symfony/process": "^6.4",
+        "symfony/serializer": "^6.4",
+        "symfony/orm-pack": "^2.4",
+        "doctrine/doctrine-bundle": "^2.15",
+        "nelmio/cors-bundle": "^2.5"
+    }
+}

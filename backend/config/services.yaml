@@ -1,8 +1,3 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     metrics_script_path: '%kernel.project_dir%/../scripts/sys_stats'
     logs_script_path: '%kernel.project_dir%/../scripts/log_analyzer.py'
@@ -22,11 +17,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
     App\Service\MetricsService:
         arguments:
             $scriptPath: '%metrics_script_path%'
+            $logger: '@monolog.logger.metrics'
 
     App\Service\LogsService:
         arguments:
@@ -39,3 +33,4 @@ services:
     App\Command\StoreMetricsCommand:
         arguments:
             $scriptPath: '%metrics_script_path%'
+            $logger: '@monolog.logger.metrics'
