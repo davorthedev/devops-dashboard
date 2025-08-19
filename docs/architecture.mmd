@@ -4,7 +4,8 @@ flowchart LR
     PY["log_analyzer.py"] -->|JSON| PHP
     RB["service_manager.rb"] -->|stdout| PHP
     PHP -->|HTTP JSON| FE["React App"]
-    PHP <-->|SQL (Doctrine)| DB[(PostgreSQL/MySQL)]
+    PHP -->|SQL (Doctrine)| DB[(PostgreSQL/MySQL)]
+    DB -->|SQL (Doctrine)| PHP
     CRON[["cron: app:store-metrics"]] --> PHP
   end
 
